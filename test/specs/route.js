@@ -66,14 +66,14 @@ describe("Routing", function(){
       Route.add('/foobe', function(){});
       expect(Route.router.routes.length).toBe(1);
       var triggerspy = jasmine.createSpy();
-      
+
       Route.one('before', triggerspy);
       Route.one('navigate', triggerspy);
       Route.one('change', triggerspy);
       Route.path = '/';
       expect(triggerspy).not.toHaveBeenCalled();
       expect(Route.path).toBe('/');
-      
+
       //navigate('/foobe').done(function(){
       //});
       Route.navigate('/foobe');
@@ -144,7 +144,7 @@ describe("Routing", function(){
         triggerBefore = true;
         routePath     = route.path;
       });
-      
+
       Route.navigate('/foo');
       done();
       expect(triggerBefore).toBe(true);
@@ -170,7 +170,7 @@ describe("Routing", function(){
 
     describe("When route changes happen", function(){
       var routeSpy;
-      
+
       beforeEach(function(){
         routeSpy = jasmine.createSpy();
       })
@@ -201,10 +201,10 @@ describe("Routing", function(){
 
 
       it("can call routes with params", function(done){
-        Route.add({'/users/:id/:id2': spy});
+        Route.add({'/users/:id/:id2': routeSpy});
         Route.navigate('/users/1/2');
         done();
-        
+
         expect(routeSpy.calls.mostRecent().args).toEqual(jasmine.objectContaining([{
           trigger: true,
           history: false,
@@ -232,7 +232,7 @@ describe("Routing", function(){
       it("can override trigger behavior when navigating", function(done){
         expect(Route.options.trigger).toBe(true);
         Route.one('change', routeSpy);
-        
+
         Route.navigate('/users', false);
         done();
         expect(Route.options.trigger).toBe(true);
